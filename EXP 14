@@ -1,0 +1,42 @@
+-- 1️⃣ Create a sequence for DEPT primary key
+-- Query 1
+CREATE SEQUENCE DEPT_ID_SEQ
+START WITH 200
+INCREMENT BY 10
+MAXVALUE 1000
+NOCACHE
+NOCYCLE;
+
+-- 2️⃣ Display information about sequences
+-- Query 2
+SELECT SEQUENCE_NAME,
+       MAX_VALUE,
+       INCREMENT_BY,
+       LAST_NUMBER
+FROM USER_SEQUENCES;
+
+-- 3️⃣ Create DEPT table and insert data using the sequence
+-- Query 3a: Create DEPT table
+CREATE TABLE DEPT (
+  DEPT_ID NUMBER PRIMARY KEY,
+  DEPT_NAME VARCHAR2(50)
+);
+
+-- Query 3b: Insert rows using the sequence
+INSERT INTO DEPT VALUES (DEPT_ID_SEQ.NEXTVAL, 'Education');
+INSERT INTO DEPT VALUES (DEPT_ID_SEQ.NEXTVAL, 'Administration');
+
+-- Query 3c: Confirm the additions
+SELECT * FROM DEPT;
+
+-- 4️⃣ Create a non-unique index on foreign key column (DEPT_ID) in EMP table
+-- Query 4
+CREATE INDEX EMP_DEPTID_IDX
+ON EMP (DEPT_ID);
+
+-- 5️⃣ Display the indexes and their uniqueness for EMP table
+-- Query 5
+SELECT INDEX_NAME,
+       UNIQUENESS
+FROM USER_INDEXES
+WHERE TABLE_NAME = 'EMP';
